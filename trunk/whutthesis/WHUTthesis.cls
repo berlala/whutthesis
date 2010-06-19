@@ -22,18 +22,19 @@
 %% To produce the documentation run the original source files ending with `.dtx'
 %% through LaTeX.
 
-
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{WHUTthesis}
 [2010/03/02 v0.1.0 Thesis Template for Wuhan University of Technology]
 \def\whutthesis{\textsc{WHUT}\textsc{thesis}}
-\def\version{0.1.1}
+%%\def\version{0.1.2b}
 \newif\ifwhut@master\whut@masterfalse
 \newif\ifwhut@doctor\whut@doctorfalse
 \newif\ifwhut@istwoside\whut@istwosidefalse
+\newif\ifwhut@composing\whut@composingfalse
 \DeclareOption{twoside}{\whut@istwosidetrue}
 \DeclareOption{master}{\whut@mastertrue}
 \DeclareOption{doctor}{\whut@doctortrue}
+\DeclareOption{composing}{\whut@composingtrue}
 \DeclareOption*{\PackageWarning{whutthesis}{Unknown Option '\CurrentOption'}}
 %% 将选项传递给 ctexbook 类
 %% 用户至少要提供一个选项：指定论文类型。
@@ -65,7 +66,7 @@
 \RequirePackage{longtable}
 \RequirePackage{booktabs}
 \RequirePackage{multirow}
-\RequirePackage{tabularx}
+%%\RequirePackage{tabularx} %\textsf{tabularx}需要在\textsf{hyperref}之后引入才不会使正文的footnote的超链接失效
 \RequirePackage{slashbox}
 %% 引入\textsf{paralist}来达到比较好看的列表环境
 \RequirePackage[neverdecrease]{paralist}
@@ -79,6 +80,9 @@
 \let\enddescription\endcompactdesc
 %% 文档中还需要一定的色彩控制和字体控制
 \RequirePackage{xcolor}
+\ifwhut@composing
+    \pagecolor[rgb]{1,0.95,0.88}
+\fi
 
 %%\RequirePackage{amsmath,amsfonts,amssymb,bm,mathrsfs}
 \RequirePackage{amsmath,amssymb}
@@ -97,14 +101,68 @@
 %% 题目录，可以断行（用\protect\\）@@TODO:来自seu，有待测试
 %%\RequirePackage{makeidx} % 索引
 %%\RequirePackage[nottoc]{tocbibind}
-%% 定公式、图、表编号为"3-1"的形式，即分隔符由.变为短杠
+%% 定公式、图、表编号为"3-1"的形式，即分隔符由.变为短杠。
+%% 子图和子表的应用序号外加小括号，如图 1-2(a)。
 \renewcommand\theequation{\arabic{chapter}--\arabic{equation}}
 \renewcommand\thefigure{\arabic{chapter}--\arabic{figure}}
 \renewcommand\thetable{\arabic{chapter}--\arabic{table}}
+\captionsetup[table]{position=top,belowskip={12bp-\intextsep},aboveskip=6bp}
+\captionsetup[figure]{position=bottom,belowskip={12bp-\intextsep},aboveskip=6bp}
+\captionsetup[subfloat]{labelformat=simple,captionskip=6bp,nearskip=6bp,farskip=0bp,topadjust=0bp}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
+\renewcommand{\thesubtable}{(\alph{subtable})}
 %% 首行缩进宏包
 \RequirePackage{indentfirst}
 %% 如果插入的图片没有指定扩展名，那么依次搜索下面的扩展名所对应的文件
 \DeclareGraphicsExtensions{.pdf,.eps,.jpg,.png}
+%% 行距,学校要求固定值20pt，每页可打印正文约32行
+%% |\linestrech| 的值为 1 时为单倍行距， 1.2 时是一倍半行距， 而为 1.6 时是双倍行距。
+%%其实不同尺寸的字体行间距都不相同，而是成比例关系。这个20pt是对正文主要字体来说的。
+%%在TeX中基本的行间距是|\baselineskip|, 对于12pt的字体，这个值等于14.5pt, 而真正的行间距是
+%%|\baselineskip * \baselinestretch| ，|\baselinestretch|默认为1, 但我们可以重新设置它的值，如
+%%|\renewcommand{\baselinestretch}{1.38}| 就得到真正的行间距为14.5pt*1.38≈20pt。
+%%而这样定义之后，对不同尺寸的字体都会按同样的比例因子1.38放大行间距，使得全文排版能协调一致。
+\RequirePackage{setspace}
+\setstretch{1.38}
+%% \textsf{footmisc}宏包可以方便地更改脚注样式。这里修改了宏包默认的bringhurs样式，
+%% \textbf{注意：此脚注样式只支持每页18个脚注，多于18个将无法编号}
+\RequirePackage[perpage,symbol*,stable]{footmisc}
+\DefineFNsymbolsTM*{hurst}{%
+\textdagger       \dagger
+      \textdaggerdbl  \ddagger
+      \textsection      \mathsection
+      \textparagraph  \mathparagraph
+      \textbardbl       \|%
+      {\textasteriskcentered\textasteriskcentered}{**}%
+      {\textdagger\textdagger}{\dagger\dagger}%
+      {\textdaggerdbl\textdaggerdbl}{\dagger\dagger}%
+      {\textsection\textsection}{\mathsection\mathsection}%
+      {\textparagraph\textparagraph}{\mathparagraph\mathparagraph}%
+      {\textasteriskcentered\textasteriskcentered\textasteriskcentered}{***}%
+      {\textdagger\textdagger\textdagger}{\dagger\dagger\dagger}%
+      {\textdaggerdbl\textdaggerdbl\textdaggerdbl}{\ddagger\ddagger\ddagger}%
+      {\textsection\textsection\textsection}%%
+      {\mathsection\mathsection\mathsection}%
+      {\textparagraph\textparagraph\textparagraph}%%
+      {\mathparagraph\mathparagraph\mathparagraph}%
+      \textasteriskcentered  *
+}%
+\setfnsymbol{hurst}
+%% 引入\textsf{todonotes}宏包以支持编写论文时自己写批注，批注的可见性由composing文档选项控制。
+%% 也就是定义了composing文档选项时批注可见，不定义时不可见。
+%% 自定义\textsf{mynote}命令，以方便对选定文字做批注。
+%% 引入\textsf{etex}宏包以避免\textsf{todonotes}和\textsf{listings}宏包冲突
+%% 而导致 \textsf{No room for a new count}错误
+\newcommand\mynote[2]{
+    {#2}}
+\ifwhut@composing
+    \RequirePackage{etex}
+    \RequirePackage[textwidth=2.9cm,shadow, backgroundcolor=lime]{todonotes}
+    \renewcommand\mynote[2]{
+        \todo{#1}
+        {\color{gray}#2}}
+\fi
+
 \RequirePackage[numbers,super,sort&compress]{natbib}
 \RequirePackage{hyperref}
 \hypersetup{%
@@ -119,19 +177,13 @@
     pdfborder=0 0 0}
 \RequirePackage{hypernat}
 
+%% \textsf{tabularx}需要在\textsf{hyperref}之后引入才不会使正文的footnote的超链接失效
+\RequirePackage{tabularx}
+
 %% 设置 url 样式，与上下文一致
 \urlstyle{same}
 %% 下划线自动换行
 \RequirePackage{ulem}
-%% 行距,学校要求固定值20pt，每页可打印正文约32行
-%% |\linestrech| 的值为 1 时为单倍行距， 1.2 时是一倍半行距， 而为 1.6 时是双倍行距。
-%%其实不同尺寸的字体行间距都不相同，而是成比例关系。这个20pt是对正文主要字体来说的。
-%%在TeX中基本的行间距是|\baselineskip|, 对于12pt的字体，这个值等于14.5pt, 而真正的行间距是
-%%|\baselineskip * \baselinestretch| ，|\baselinestretch|默认为1, 但我们可以重新设置它的值，如
-%%|\renewcommand{\baselinestretch}{1.38}| 就得到真正的行间距为14.5pt*1.38≈20pt。
-%%而这样定义之后，对不同尺寸的字体都会按同样的比例因子1.38放大行间距，使得全文排版能协调一致。
-\RequirePackage{setspace}
-\setstretch{1.38}
 %% 设置章节格式
 \CTEXsetup[number={\arabic{chapter}},name={第,章},
             nameformat={\bfseries\centering\zihao{-2}},
@@ -293,7 +345,7 @@
         \setlength{\extrarowheight}{4pt}
 %%      绘制题目、作者、指导教师、审阅等信息
         \hangafter 1
-        \hangindent 10em
+        \hangindent 5.23em
         \noindent\whut@put@titlepagetitle{\whut@ctitlecap}  \whut@put@titlepagecontent{\uline{\hfill \whut@ctitleformated \hfill}}\\
         \noindent\whut@put@titlepagetitle{\whut@etitlecap}  \uline{\hfill \whut@etitleformated \hfill}\\
         \noindent\whut@put@titlepagetitle{\whut@authornamecap} \whut@put@titlepagecontent{\uline{\hfill \whut@cauthor \hfill}} \\ \par

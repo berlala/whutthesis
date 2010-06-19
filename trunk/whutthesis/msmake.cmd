@@ -43,6 +43,9 @@
 @rem ----------------------------------------------------------------------
 @rem CHANGE LOG
 @rem ----------------------------------------------------------------------
+@rem 2010-04-05 14:52:20(+0800) [by Hu,Weiyi]
+@rem     增加了编译论文的once参数，只对文档编译一次。用于快速查看更改
+@rem ----------------------------------------------------------------------
 @rem 2010-03-02 21:51:10(+0800) [by Hu,Weiyi]
 @rem     modification for whutthesis v0.1.0
 @rem ----------------------------------------------------------------------
@@ -157,9 +160,11 @@ echo 本程序试图重新生成并配置whutthesis宏包...
 @rem =============================================
 :my
 call xelatex mythesis
+if {%2}=={once} (goto once)
 call bibtex mythesis
 call xelatex mythesis
 call xelatex mythesis
+:once
 if errorlevel 1 goto myerr1
 echo 成功生成论文
 call mythesis.pdf
