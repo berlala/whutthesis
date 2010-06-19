@@ -43,7 +43,7 @@
 % \changes{v0.1.0}{2010/03/02}{初始版本}
 % \iffalse
 %<*driver>
-\ProvidesFile{WHUTthesis.dtx}[2010/03/02 0.1.1 Thesis Template for Wuhan University of Technology]
+\ProvidesFile{WHUTthesis.dtx}[2010/06/19 0.1.2d Thesis Template for Wuhan University of Technology]
 \documentclass[10pt]{ltxdoc}
 \usepackage{dtx-style}
 \EnableCrossrefs
@@ -427,7 +427,7 @@
 % \label{sec:option}
 % 本模板提供了一些选项以方便使用：
 % \begin{description}
-
+%
 % \item[master]
 %   如果写硕士论文将此选项打开。
 %   \begin{example}
@@ -456,6 +456,17 @@
 %   adobefonts可以打开OTF字体。
 %   \begin{example}
 % \documentclass[master,oneside,adobefonts]{WHUTthesis}
+%   \end{example}
+%
+% \item[composing]
+%   论文在写作时和最终提交的版本可能存在一些差别，如写作时给自己看的一些批注。
+%   提供此选项以便打开写作模式。之所以不用draft选项是因为该选项下不会加载图片和代码列表
+%   等内容，不便于观察排版结果。\textbf{注意：由composing选项切换到无该选项编译文档时可能
+%   会出现pgf宏包的错误，这可能是因为上次带composing选项编译时中间文件中存在使用mynotes
+%   命令而由\textsf{todonotes}宏包引入的pgf指令，简单跳过编译或者清除上次编译的中间文件然后执行
+%   全新的编译即能顺利进行。}
+%   \begin{example}
+% \documentclass[master,oneside,composing]{WHUTthesis}
 %   \end{example}
 % \end{description}
 %
@@ -820,6 +831,17 @@
 % 看 \pkg{paralist} 文档，此处不再赘述。
 %
 %
+% \subsubsection{一些特别的命令}
+% \label{ssec:special}
+% \myentry{写作时标注}
+% \DescribeMacro{\mynote}用来植入写作时的批注，该批注在\textsf{composing}选项下才可见，
+% 提交最终版本时去掉\textsf{composing}选项，所有批注都不显示。
+% \begin{example}
+% 倒是作者分析到湘西的苗人的“仇外”避汉，这种思想其实并非是针对民族的，
+% \mynote{为什么时阶层性的呢？这里有待查资料}{而是阶层性的}，
+% 因为当时官吏的主体无疑是统治阶级的民族――这种历史背景，导致了民族性质的被强调。
+% \end{example}
+%
 % \subsection{数学环境}
 % \label{sec:math}
 % \whutthesis{} 定义了常用的数学环境：
@@ -866,16 +888,101 @@
 %\label{sec:thanks}
 %
 % 在模板的开发过程中，我的女朋友给了我最大的支持，正是由于她的鼓励让我在遭遇似乎看不到尽头的困难时
-% 能够坚持下来。冉冉，谢谢你！{\LARGE\Heart}
+% 能够坚持下来。冉冉，谢谢你！\Heart
 %
 % \whutthesis 的开发参考了前人的大量工作，这里特别对ThuThesis的薛瑞尼、nudtpaper
 % 的刘本源、SEUThesis的许元、SJTU Master Thesis的Wei Jianwen致以最诚挚的谢意！是
 % 你们无私的工作帮助我完成了这份模板，谢谢！
 %
 % 感谢所有在论文致谢中提及 \whutthesis{} 或者本人的同学，你们的肯定是我最大的收获！
-% 在我离开后，这份模板将继续由计算机
-% 研学生会学术部来维护，这里我呼唤感兴趣的同学能出手相助，给模板的开发和维护注入新的
+% 在我离开后，这份模板计划由计算机
+% 研学生会学术部继续维护，这里我呼唤感兴趣的同学能出手相助，给模板的开发和维护注入新的
 % 活力，让我们一起把 \whutthesis{} 做得更好！
+%
+%
+%\section{历史}
+%\label{sec:history}
+%
+% \subsection{官方认证及推广}
+% \label{ssec:auth}
+% 由于论文需要经过反剽窃系统检查和最终在图书馆提交电子版两道程序，且这些系统基本只支持doc格式，
+% 由此给该模板的推广带来巨大阻力。2010年03月本模板初步完成时本人去马区找过研究生院
+% 主管学位论文事宜的老师以期让该模板获得官方认证，由于主管老师工作繁忙，
+% 本人在余区和马区间辗转两次后此事便再无下文。提交反剽窃检查时先提交的pdf版，期待该检查
+% 系统如其所声称的那样支持pdf，不幸的是奇迹没有出现，论文被打回，用Acrobat Pro 9导出一个无排版的doc
+% 版应付过去。图书馆的电子版提交与上述遭遇相同，同样用Acrobat Pro 9导出的无排版的doc应付过去。真是
+% 阴魂不散的doc啊……
+%
+% 由于未能获得官方认证，本模板并未做大力推广，目前只在googlecode建立了托管项目并在经纬论坛
+% 发表了一篇发布帖(\url{http://forum.wutnews.net/bbs/topic.aspx?tid=370363})，该贴的置顶申请
+% 被版主忽略。从现状来看，官方渠道仅收到学院研工办老师对该项目表示的支持。希望后续维护该项目的
+% 同学能够在官方认证上取得突破并在推广上有所作为，让更多的理工学子在撰写毕业论文时受益于
+% \whutthesis{}，{\heiti 拜托了！}
+%
+% \subsection{版本历史及维护团队}
+% \label{ssec:verhis}
+% \subsubsection{2010年03月-\ 2010年06月}
+%       \noindent {\bf 维\qquad 护：}胡卫谊\\
+%       {\bf 特别感谢：}所有测试和使用\whutthesis 的同学\\
+%       {\bf 发布序列：}
+%       \begin{itemize}
+%           \item v0.1.2d 2010/06/19 文档更新
+%               \begin{enumerate}
+%                   \item 补充todolist，增加“\ref{ssec:auth}官方认证及推广”小节
+%               \end{enumerate}
+%           \item v0.1.2c 2010/04/19 新特性和功能修复
+%               \begin{enumerate}
+%                   \item 引入footmisc宏包以修改脚注样式 
+%                   \item 引入todonotes宏包以支持编写时的批注。非常漂亮的批注，需要新增的composing文档选项的支持，具体使用方法请看用户手册 
+%                   \item 编写论文时输出文稿背景色设置为橙色新闻纸色，保护视力 
+%                   \item 子图引用加上小括号，如图 1-2(a)所示 
+%                   \item 将参考文献样式文件转换为utf-8编码，正确地生成文献列表 
+%                   \item 编译脚本的 msmake my 选项引入第二个选项once，只处理文档一次以加快编译速度，方便即时查看 
+%               \end{enumerate}
+%           \item v0.1.2b 2010/03/31 微小调整。私房版，未发布。
+%               \begin{enumerate}
+%                   \item 引入footmisc宏包以修改脚注样式
+%                   \item 引入todonotes宏包以支持编写时的批注
+%                   \item 用户手册增加版本历史和TODOlist章节
+%               \end{enumerate}
+%           \item v0.1.2a 2010/03/29 微小调整
+%               \begin{enumerate}
+%                   \item 发布版本号后加字母后缀，避免微小调整造成版本号上升过快 
+%                   \item 调整了部分宏包的加载顺序，脚注的超链接得以修复 
+%                   \item 取消了扉页英文题目的悬挂缩进，英文题目的第二行下划线与第一行对齐 
+%               \end{enumerate}
+%           \item v0.1.1 2010/03/22 微小调整
+%               \begin{enumerate}
+%                   \item 完善了数学字体，使用了与同济大学第五版高数教材所用字体相同的字体，使得数学公式更加漂亮 
+%                   \item 压缩了列表项间距，中文版式下更加漂亮 
+%               \end{enumerate}
+%           \item v0.1.0 2010/03/15 初始发布
+%               \begin{enumerate}
+%                   \item 该版本目前只完整支持硕士论文，博士论文的双面未调试
+%               \end{enumerate}
+%       \end{itemize}
+% \subsubsection{2010年07月-\ ……}
+%       \noindent {\bf 维\qquad 护：}\\
+%       {\bf 特别感谢：}\\
+%       {\bf 发布序列：}
+%
+% \subsection{TODOlist}
+% \label{ssec:todo}
+% 下表记录了计划实现的功能和特性
+%   \begin{enumerate}
+%       \item 调试博士论文的双面支持
+%       \item 加入本科论文的支持
+%       \item 修正“致谢”部分页眉风格的dirty code
+%       \item 增加编写时的批注功能\qquad  (DONE! v0.1.2b)
+%       \item 去掉图表标题后的冒号（这个问题尝试了许多办法均未能解决）
+%       \item 修改listings宏包的标题序号中的分隔符为'-'
+%       \item 调整章开始页上部空白大小
+%       \item 调整a3封面的排版
+%       \item 修正PDF文件中从目录点击超链接到“参考文献”时目的页不匹配问题
+%       \item 将“目录”插入pdf的书签中，方便导航
+%       \item 去掉|\mynote{}|与前文间的一段小间距
+%       \item Linux平台迁移及测试
+%   \end{enumerate}
 %
 % \StopEventually{\PrintChanges\PrintIndex}
 % \clearpage
@@ -895,13 +1002,15 @@
 %<*cls>%
 %    \begin{macrocode}
 \def\whutthesis{\textsc{WHUT}\textsc{thesis}}
-\def\version{0.1.1}
+%%\def\version{0.1.2b}
 \newif\ifwhut@master\whut@masterfalse
 \newif\ifwhut@doctor\whut@doctorfalse
 \newif\ifwhut@istwoside\whut@istwosidefalse
+\newif\ifwhut@composing\whut@composingfalse
 \DeclareOption{twoside}{\whut@istwosidetrue}
 \DeclareOption{master}{\whut@mastertrue}
 \DeclareOption{doctor}{\whut@doctortrue}
+\DeclareOption{composing}{\whut@composingtrue}
 \DeclareOption*{\PackageWarning{whutthesis}{Unknown Option '\CurrentOption'}}
 %    \end{macrocode}
 %
@@ -961,7 +1070,7 @@
 \RequirePackage{longtable}
 \RequirePackage{booktabs}
 \RequirePackage{multirow}
-\RequirePackage{tabularx}
+%%\RequirePackage{tabularx} %\textsf{tabularx}需要在\textsf{hyperref}之后引入才不会使正文的footnote的超链接失效
 \RequirePackage{slashbox}
 %    \end{macrocode}
 %
@@ -980,8 +1089,12 @@
 %    \end{macrocode}
 % 
 %% 文档中还需要一定的色彩控制和字体控制
+% \changes{v0.1.2c}{2010/04/15}{论文编写模式下的文档背景色，新闻纸的淡黄色，保护视力}
 %    \begin{macrocode}
 \RequirePackage{xcolor}
+\ifwhut@composing
+    \pagecolor[rgb]{1,0.95,0.88}
+\fi
 %    \end{macrocode}
 
 % 为了排出漂亮的数学公式，\textsf{amsmath}包是必不可少的，\textsf{txfonts}的作用是用
@@ -1015,11 +1128,18 @@
 %%\RequirePackage[nottoc]{tocbibind}
 %    \end{macrocode}
 %
-%% 定公式、图、表编号为"3-1"的形式，即分隔符由.变为短杠
+%% 定公式、图、表编号为"3-1"的形式，即分隔符由.变为短杠。
+%% 子图和子表的应用序号外加小括号，如图 1-2(a)。
+% \changes{v0.1.2c}{2010/04/15}{子表引用的时候子序号没有外面的小括号1-2(a)，加上}
 %    \begin{macrocode}
 \renewcommand\theequation{\arabic{chapter}--\arabic{equation}}
 \renewcommand\thefigure{\arabic{chapter}--\arabic{figure}}
 \renewcommand\thetable{\arabic{chapter}--\arabic{table}}
+\captionsetup[table]{position=top,belowskip={12bp-\intextsep},aboveskip=6bp}
+\captionsetup[figure]{position=bottom,belowskip={12bp-\intextsep},aboveskip=6bp}
+\captionsetup[subfloat]{labelformat=simple,captionskip=6bp,nearskip=6bp,farskip=0bp,topadjust=0bp}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
+\renewcommand{\thesubtable}{(\alph{subtable})}
 %    \end{macrocode}
 %
 %% 首行缩进宏包
@@ -1032,6 +1152,69 @@
 \DeclareGraphicsExtensions{.pdf,.eps,.jpg,.png}
 %    \end{macrocode}
 %
+%
+% \changes{v0.1.2a}{2010/03/29}{\textsf{setspace}宏包提到hyperref前加载，避免脚注超链接失效}
+%% 行距,学校要求固定值20pt，每页可打印正文约32行
+%% |\linestrech| 的值为 1 时为单倍行距， 1.2 时是一倍半行距， 而为 1.6 时是双倍行距。
+%%其实不同尺寸的字体行间距都不相同，而是成比例关系。这个20pt是对正文主要字体来说的。
+%%在TeX中基本的行间距是|\baselineskip|, 对于12pt的字体，这个值等于14.5pt, 而真正的行间距是
+%%|\baselineskip * \baselinestretch| ，|\baselinestretch|默认为1, 但我们可以重新设置它的值，如 
+%%|\renewcommand{\baselinestretch}{1.38}| 就得到真正的行间距为14.5pt*1.38≈20pt。
+%%而这样定义之后，对不同尺寸的字体都会按同样的比例因子1.38放大行间距，使得全文排版能协调一致。
+%    \begin{macrocode}
+\RequirePackage{setspace}
+\setstretch{1.38}
+%    \end{macrocode}
+%
+% \changes{v0.1.2b}{2010/03/30}{引入\textsf{footmisc}宏包以修改脚注样式}
+%% \textsf{footmisc}宏包可以方便地更改脚注样式。这里修改了宏包默认的bringhurs样式，
+%% \textbf{注意：此脚注样式只支持每页18个脚注，多于18个将无法编号}
+%    \begin{macrocode}
+\RequirePackage[perpage,symbol*,stable]{footmisc}
+\DefineFNsymbolsTM*{hurst}{%
+	\textdagger       \dagger
+      \textdaggerdbl  \ddagger
+      \textsection      \mathsection
+      \textparagraph  \mathparagraph
+      \textbardbl       \|%
+      {\textasteriskcentered\textasteriskcentered}{**}%
+      {\textdagger\textdagger}{\dagger\dagger}%
+      {\textdaggerdbl\textdaggerdbl}{\dagger\dagger}%
+      {\textsection\textsection}{\mathsection\mathsection}%
+      {\textparagraph\textparagraph}{\mathparagraph\mathparagraph}%
+      {\textasteriskcentered\textasteriskcentered\textasteriskcentered}{***}%
+      {\textdagger\textdagger\textdagger}{\dagger\dagger\dagger}%
+      {\textdaggerdbl\textdaggerdbl\textdaggerdbl}{\ddagger\ddagger\ddagger}%
+      {\textsection\textsection\textsection}%%
+      {\mathsection\mathsection\mathsection}%
+      {\textparagraph\textparagraph\textparagraph}%%
+      {\mathparagraph\mathparagraph\mathparagraph}%
+      \textasteriskcentered  *
+}%
+\setfnsymbol{hurst}
+%    \end{macrocode}
+%
+% \begin{macro}{\mynote}
+% \changes{v0.1.2b}{2010/03/30}{引入\textsf{todonotes}宏包以支持编写论文时自己写批注，批注的可见性由composing文档选项控制}
+%% 引入\textsf{todonotes}宏包以支持编写论文时自己写批注，批注的可见性由composing文档选项控制。
+%% 也就是定义了composing文档选项时批注可见，不定义时不可见。
+%% 自定义\textsf{mynote}命令，以方便对选定文字做批注。
+%% 引入\textsf{etex}宏包以避免\textsf{todonotes}和\textsf{listings}宏包冲突
+%% 而导致 \textsf{No room for a new count}错误
+%    \begin{macrocode}
+\newcommand\mynote[2]{
+    {#2}}
+\ifwhut@composing
+    \RequirePackage{etex}
+    \RequirePackage[textwidth=2.9cm,shadow, backgroundcolor=lime]{todonotes}
+    \renewcommand\mynote[2]{
+        \todo{#1}
+        {\color{gray}#2}}
+\fi
+%    \end{macrocode}
+% \end{macro}
+
+
 % 另外一个关键部分是文献索引，包括书签以及参考文献的索引，记得\textsf{hyperref}配合
 % \XeTeX{}使用时不能开启Unicode选项，而\textsf{hypernat}可以让\textsf{hyperref}和
 % \textsf{natbib}混合使用，需要放在这两个之后：
@@ -1051,6 +1234,12 @@
 \RequirePackage{hypernat}
 %    \end{macrocode}
 
+% \changes{v0.1.2a}{2010/03/29}{延后到hyperref加载后再加载tabularx，避免脚注的超链接失效}
+%% \textsf{tabularx}需要在\textsf{hyperref}之后引入才不会使正文的footnote的超链接失效
+%    \begin{macrocode}
+\RequirePackage{tabularx}
+%    \end{macrocode}
+
 %% 设置 url 样式，与上下文一致
 %    \begin{macrocode}
 \urlstyle{same}
@@ -1059,18 +1248,6 @@
 %% 下划线自动换行
 %    \begin{macrocode}
 \RequirePackage{ulem}
-%    \end{macrocode}
-%
-%% 行距,学校要求固定值20pt，每页可打印正文约32行
-%% |\linestrech| 的值为 1 时为单倍行距， 1.2 时是一倍半行距， 而为 1.6 时是双倍行距。
-%%其实不同尺寸的字体行间距都不相同，而是成比例关系。这个20pt是对正文主要字体来说的。
-%%在TeX中基本的行间距是|\baselineskip|, 对于12pt的字体，这个值等于14.5pt, 而真正的行间距是
-%%|\baselineskip * \baselinestretch| ，|\baselinestretch|默认为1, 但我们可以重新设置它的值，如 
-%%|\renewcommand{\baselinestretch}{1.38}| 就得到真正的行间距为14.5pt*1.38≈20pt。
-%%而这样定义之后，对不同尺寸的字体都会按同样的比例因子1.38放大行间距，使得全文排版能协调一致。
-%    \begin{macrocode}
-\RequirePackage{setspace}
-\setstretch{1.38}
 %    \end{macrocode}
 %
 %% 设置章节格式
@@ -1416,6 +1593,7 @@
 %
 % \begin{macro}{\whut@first@titlepage}
 % 封面和封二！
+% \changes{v0.1.2a}{2010/03/29}{取消了英文题目第二行的缩进，保持与第一行下划线对齐}
 %    \begin{macrocode}
 %<*cls>
 %%
@@ -1488,7 +1666,7 @@
         \setlength{\extrarowheight}{4pt}
 %%      绘制题目、作者、指导教师、审阅等信息
         \hangafter 1
-        \hangindent 10em
+        \hangindent 5.23em
         \noindent\whut@put@titlepagetitle{\whut@ctitlecap}  \whut@put@titlepagecontent{\uline{\hfill \whut@ctitleformated \hfill}}\\
         \noindent\whut@put@titlepagetitle{\whut@etitlecap}  \uline{\hfill \whut@etitleformated \hfill}\\
         \noindent\whut@put@titlepagetitle{\whut@authornamecap} \whut@put@titlepagecontent{\uline{\hfill \whut@cauthor \hfill}} \\ \par
